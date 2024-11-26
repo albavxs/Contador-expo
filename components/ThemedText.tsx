@@ -1,5 +1,4 @@
 import { Text, type TextProps, StyleSheet } from 'react-native';
-
 import { useThemeColor } from '@/hooks/useThemeColor';
 
 export type ThemedTextProps = TextProps & {
@@ -8,31 +7,7 @@ export type ThemedTextProps = TextProps & {
   type?: 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link';
 };
 
-export function ThemedText({
-  style,
-  lightColor,
-  darkColor,
-  type = 'default',
-  ...rest
-}: ThemedTextProps) {
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
-
-  return (
-    <Text
-      style={[
-        { color },
-        type === 'default' ? styles.default : undefined,
-        type === 'title' ? styles.title : undefined,
-        type === 'defaultSemiBold' ? styles.defaultSemiBold : undefined,
-        type === 'subtitle' ? styles.subtitle : undefined,
-        type === 'link' ? styles.link : undefined,
-        style,
-      ]}
-      {...rest}
-    />
-  );
-}
-
+// Estilos definidos primeiro
 const styles = StyleSheet.create({
   default: {
     fontSize: 16,
@@ -58,3 +33,31 @@ const styles = StyleSheet.create({
     color: '#0a7ea4',
   },
 });
+
+// Agora o mapeamento de tipo para estilos é definido após os estilos
+const typeStyles = {
+  default: styles.default,
+  title: styles.title,
+  defaultSemiBold: styles.defaultSemiBold,
+  subtitle: styles.subtitle,
+  link: styles.link,
+};
+
+export function ThemedText({
+  style,
+  lightColor,
+  darkColor,
+  type = 'default',
+  ...rest
+}: ThemedTextProps) {
+  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
+  const textStyle = typeStyles[type];
+
+  return (
+    <Text
+      style={[{ color }, textStyle, style]}
+      {...rest}
+    />
+  );
+}
+

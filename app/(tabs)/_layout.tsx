@@ -19,7 +19,7 @@ export default function TabLayout() {
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
         tabBarStyle: Platform.select({
-          ios: {
+          android: {
             // Use a transparent background on iOS to show the blur effect
             position: 'absolute',
           },

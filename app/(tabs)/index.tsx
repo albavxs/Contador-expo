@@ -2,49 +2,71 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-export default function HomeScreen() {
-  // Estado para armazenar o tempo restante
-  const [timeLeft, setTimeLeft] = useState(7 * 24 * 60 * 60); // 7 dias em segundos
+const SEVEN_DAYS_IN_SECONDS = 7 * 24 * 60 * 60;
 
-  // Função para formatar o tempo (em segundos) para o formato "dd/hh:mm:ss"
-  const formatTime = (timeInSeconds: number) => {
-    const days = Math.floor(timeInSeconds / (24 * 60 * 60));
-    const hours = Math.floor((timeInSeconds % (24 * 60 * 60)) / 3600);
-    const minutes = Math.floor((timeInSeconds % 3600) / 60);
-    const seconds = timeInSeconds % 60;
+const HomeScreen: React.FC = () => {
+  const [timeLeft, setTimeLeft] = useState<number>(SEVEN_DAYS_IN_SECONDS);
 
-    return `${String(days).padStart(2, '0')}/${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  // Formata o tempo restante no formato "dd/hh:mm:ss"
+  const formatTime = (seconds: number): string => {
+    const days = Math.floor(seconds / (24 * 60 * 60));
+    const hours = Math.floor((seconds % (24 * 60 * 60)) / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+
+    return `${String(days).padStart(2, '0')}/${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
   };
 
-  // Efeito para atualizar o contador a cada segundo
+  // Atualiza o contador a cada segundo
   useEffect(() => {
     if (timeLeft <= 0) return;
 
-    const timer = setInterval(() => {
-      setTimeLeft(prevTime => prevTime - 1);
-    }, 1000);
+    const updateTimer = () => setTimeLeft((prevTime) => prevTime - 1);
 
-    // Limpar o intervalo quando o componente for desmontado
-    return () => clearInterval(timer);
+    const timerId = setInterval(updateTimer, 1000);
+
+    return () => clearInterval(timerId);
   }, [timeLeft]);
 
- return (
+  return (
     <LinearGradient
-      colors={['#eee', '#4EC5F1']} // Gradiente de fundo
-      style={styles.container} // Aplica o estilo no gradiente
+      colors={['#eee', '#4EC5F1']}
+      style={styles.container}
     >
-      <View style={styles.emojiContainer}>
-        <Text style={styles.emoji}>🗓</Text>
-      </View>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>Contador</Text>
-      </View>
-      <View style={styles.timeContainer}>
-        <Text style={styles.timeText}>{formatTime(timeLeft)}</Text>
-      </View>
+      <Header />
+      <Title text="Contador" />
+      <TimeDisplay formattedTime={formatTime(timeLeft)} />
     </LinearGradient>
   );
+};
+
+// Componentes para melhorar a separação de responsabilidades
+
+const Header: React.FC = () => (
+  <View style={styles.emojiContainer}>
+    <Text style={styles.emoji}>🗓</Text>
+  </View>
+);
+
+interface TitleProps {
+  text: string;
 }
+
+const Title: React.FC<TitleProps> = ({ text }) => (
+  <View style={styles.titleContainer}>
+    <Text style={styles.title}>{text}</Text>
+  </View>
+);
+
+interface TimeDisplayProps {
+  formattedTime: string;
+}
+
+const TimeDisplay: React.FC<TimeDisplayProps> = ({ formattedTime }) => (
+  <View style={styles.timeContainer}>
+    <Text style={styles.timeText}>{formattedTime}</Text>
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -76,3 +98,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+
+export default HomeScreen;

@@ -10,12 +10,12 @@ export function ExternalLink({ href, ...rest }: Props) {
     <Link
       target="_blank"
       {...rest}
-      href={href}
+      href={href as unknown as "/"} // Aqui você força a string a ser aceita
       onPress={async (event) => {
         if (Platform.OS !== 'web') {
-          // Prevent the default behavior of linking to the default browser on native.
+          // Impede o comportamento padrão de abrir no navegador nativo
           event.preventDefault();
-          // Open the link in an in-app browser.
+          // Abre o link em um navegador in-app
           await openBrowserAsync(href);
         }
       }}
