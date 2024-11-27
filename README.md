@@ -1,3 +1,9 @@
+# HomeScreen - Contador com Fundo Gradiente
+
+Este projeto apresenta um contador regressivo com design moderno, utilizando **React Native Expo** e um fundo com gradiente. O contador exibe o tempo restante no formato `dd/hh:mm:ss` e conta regressivamente. Além disso, ao clicar em um emoji, a tela é invadida por um efeito de "chuva de confete", adicionando diversão à experiência.
+
+---
+
 
 ## Pré-requisitos para rodar localmente
 
@@ -9,46 +15,49 @@
 
 2. **Node.js**: Certifique-se de que o [Node.js](https://nodejs.org/) está instalado no seu sistema.
    
-3. **Expo CLI**: Caso não esteja instalado, instale globalmente:
-   ```bash
+3. **Android Studio**: Certifique-se de que o [Android.studio](https://developer.android.com/) está instalado no seu sistema.
+   ``` Vá em Running Devices
+   e ative um device da sua escolha
+
+   ```
+
+4. **Expo CLI**: Caso não esteja instalado, instale globalmente:
+   ```bash ou terminal
    npm install -g expo-cli
    ```
 
-4. **Dependências do Projeto**: Instale as dependências do projeto com:
-   ```bash
+5. **Dependências do Projeto**: Instale as dependências do projeto com:
+   ```bash ou terminal
    npm install
    ```
 
-5. **Instale o `expo-linear-gradient`**:
-   ```bash
+6. **Instale o `expo-linear-gradient`**:
+   ```bash ou terminal
    expo install expo-linear-gradient
    ```
 
-6. **Instale o pacote para confetes** (exemplo com `react-native-confetti-cannon`):
-   ```bash
+7. **Instale o pacote para confetes** (exemplo com `react-native-confetti-cannon`):
+   ```bash ou terminal
    npm install react-native-confetti-cannon
    ```
 
-7. ** Possuir um Android Studio instalado 
-   ```device da sua escolha ativo
-
-   ```
-
 8. **Inicie o Servidor de Desenvolvimento**:
-   ```bash
+   ```bash ou terminal
     expo start
    ```
 
 ---
 
-   
+## Como Usar
 
-
-# HomeScreen - Contador com Fundo Gradiente
-
-Este projeto apresenta um contador regressivo com design moderno, utilizando **React Native Expo** e um fundo com gradiente. O contador exibe o tempo restante no formato `dd/hh:mm:ss` e conta regressivamente. Além disso, ao clicar em um emoji, a tela é invadida por um efeito de "chuva de confete", adicionando diversão à experiência.
+1. Certifique-se de que o ambiente foi configurado corretamente.
+2. Inicie o projeto com `expo start`.
+3. Use um emulador ou conecte um dispositivo físico para visualizar o aplicativo.
+4. O contador iniciará automaticamente a partir de 7 dias (em segundos) e atualizará em tempo real.
+5. Clique no emoji para ver o efeito de confete!
 
 ---
+
 
 ---
 
@@ -151,15 +160,7 @@ const styles = StyleSheet.create({
 
 ---
 
-## Como Usar
 
-1. Certifique-se de que o ambiente foi configurado corretamente.
-2. Inicie o projeto com `expo start`.
-3. Use um emulador ou conecte um dispositivo físico para visualizar o aplicativo.
-4. O contador iniciará automaticamente a partir de 7 dias (em segundos) e atualizará em tempo real.
-5. Clique no emoji para ver o efeito de confete!
-
----
 
 ## Personalização
 
@@ -194,6 +195,6 @@ Se tiver dúvidas ou sugestões, entre em contato:
 
 ---
 
-**Divirta-se usando este projeto!** 🚀
+**Divirta-se usando este projeto!** 🥳
 
 ---
