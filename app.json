@@ -13,8 +13,8 @@
  
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/icon.png"
+         
       },
       "package": "com.pegui.expoapx"
     },
@@ -30,8 +30,8 @@
         {
           "image": "./assets/images/splash.png",
           "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#000000" 
+          "resizeMode": "cover"
+          
         }
       ]
     ],
