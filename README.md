@@ -8,9 +8,9 @@ Este projeto apresenta um contador regressivo com design moderno, utilizando **R
 ## Pré-requisitos para rodar localmente
 
 1. **Clone o Repositório**:
-   ```bash
-   git clone <URL_DO_REPOSITORIO>
-   cd <NOME_DO_REPOSITORIO>
+   ```bash ou terminal
+   git clone <https://github.com/albavxs/Contador-expo>
+   cd <expo-apx>
    ```
 
 2. **Node.js**: Certifique-se de que o [Node.js](https://nodejs.org/) está instalado no seu sistema.
@@ -21,20 +21,22 @@ Este projeto apresenta um contador regressivo com design moderno, utilizando **R
 
    ```
 
-4. **Expo CLI**: Caso não esteja instalado, instale globalmente:
-   ```bash ou terminal
-   npm install -g expo-cli
-   ```
-
-5. **Dependências do Projeto**: Instale as dependências do projeto com:
+4. **Dependências do Projeto**: Instale as dependências do projeto com:
    ```bash ou terminal
    npm install
    ```
 
-6. **Instale o `expo-linear-gradient`**:
+
+
+5. **Instale o `expo-linear-gradient`**:
    ```bash ou terminal
-   expo install expo-linear-gradient
+   npm install expo-linear-gradient 
    ```
+
+6. **Instale o `react-native-confetti-cannon`**:
+   ```bash ou terminal
+   npm install react-native-confetti-cannon
+   ```   
 
 7. **Instale o pacote para confetes** (exemplo com `react-native-confetti-cannon`):
    ```bash ou terminal
@@ -43,7 +45,7 @@ Este projeto apresenta um contador regressivo com design moderno, utilizando **R
 
 8. **Inicie o Servidor de Desenvolvimento**:
    ```bash ou terminal
-    expo start
+   npx expo start
    ```
 
 ---
@@ -74,71 +76,85 @@ Este projeto apresenta um contador regressivo com design moderno, utilizando **R
 
 ## Estrutura do Código
 
-### Componente Principal: `HomeScreen.js`
+### Componente Principal: `Homescreen presente em index.tsx`
 
 - **Estado do contador**:
   O estado `timeLeft` armazena o tempo restante em segundos (7 dias por padrão).
   ```javascript
-  const [timeLeft, setTimeLeft] = useState(7 * 24 * 60 * 60); // 7 dias em segundos
+   const [timeLeft, setTimeLeft] = useState<number>(SEVEN_DAYS_IN_SECONDS);  // 7 dias em segundos
+
   ```
 
 - **Efeito para atualização do contador**:
   Atualiza o contador a cada segundo até o tempo acabar.
-  ```javascript
+  ```Typescript
   useEffect(() => {
     if (timeLeft <= 0) return;
-
-    const timer = setInterval(() => {
-      setTimeLeft(prevTime => prevTime - 1);
-    }, 1000);
-
-    return () => clearInterval(timer);
+    const timerId = setInterval(() => setTimeLeft((prevTime) => prevTime - 1), 1000);
+    return () => clearInterval(timerId);
   }, [timeLeft]);
   ```
 
 - **Gradiente com `LinearGradient`**:
   Utiliza `expo-linear-gradient` para o fundo com gradiente.
-  ```javascript
-  <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.container}>
+  ```Typescript
+  <LinearGradient colors={['#eee', '#4EC5F1']} style={styles.container}>
     {/* Conteúdo */}
   </LinearGradient>
   ```
 
 - **Função de formatação de tempo**:
   A função `formatTime` converte o tempo restante de segundos para o formato `dd/hh:mm:ss`.
-  ```javascript
-  const formatTime = (timeInSeconds) => {
-    const days = Math.floor(timeInSeconds / (24 * 60 * 60));
-    const hours = Math.floor((timeInSeconds % (24 * 60 * 60)) / 3600);
-    const minutes = Math.floor((timeInSeconds % 3600) / 60);
-    const seconds = timeInSeconds % 60;
+  ```Typescript
+  const formatTime = (seconds: number): string => {
+  const days = Math.floor(seconds / (24 * 60 * 60));
+  const hours = Math.floor((seconds % (24 * 60 * 60)) / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const remainingSeconds = seconds % 60;
+  return `${String(days).padStart(2, '0')}/${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
 
-    return `${String(days).padStart(2, '0')}/${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   };
   ```
 
 - **Efeito de Confetes**:
-  Ao clicar no emoji, os confetes são disparados utilizando o pacote `react-native-confetti-cannon`.
-  ```javascript
-  const [showConfetti, setShowConfetti] = useState(false);
+  Ao clicar no emoji, os confetes são disparados utilizando o pacote `react-native-reanimated`.
+  ```Typescript
+  const FallingEmoji: React.FC<{ x: number; delay: number }> = ({ x, delay }) => {
+  const translateY = useSharedValue(-100); // Começa bem acima do topo da tela
 
-  const handleEmojiClick = () => {
-    setShowConfetti(true);
-    setTimeout(() => setShowConfetti(false), 2000); // Exibe confetes por 2 segundos
-  };
+  // Inicia a animação ao montar o componente
+  useEffect(() => {
+    translateY.value = withDelay(
+      delay,
+      withTiming(height + 100, { // Sai abaixo do limite inferior da tela
+        duration: 3000,
+        easing: Easing.out(Easing.quad),
+      })
+    );
+  }, [delay]);
   ```
 
 ---
 
 ## Estilos
 
-O estilo é definido no arquivo `StyleSheet`:
+O estilo é definido no arquivo `StyleSheet.d.ts`:
 
-```javascript
+```Typescript
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emojiContainer: {
+    marginBottom: 16,
+  },
+  emoji: {
+    fontSize: 48,
+    textAlign: 'center',
+  },
+  titleContainer: {
     alignItems: 'center',
   },
   title: {
@@ -146,14 +162,18 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
+  timeContainer: {
+    marginTop: 20,
+  },
   timeText: {
     fontSize: 28,
     color: '#fff',
     fontWeight: 'bold',
   },
-  emoji: {
-    fontSize: 48,
-    marginTop: 20,
+  emojiRain: {
+    position: 'absolute', // Importante para posicionar fora do fluxo normal
+    top: 0, // Garante que a posição seja relativa ao topo da tela
+    fontSize: 32,
   },
 });
 ```
@@ -165,13 +185,13 @@ const styles = StyleSheet.create({
 ## Personalização
 
 - **Altere o gradiente**: Atualize os valores da propriedade `colors` no `LinearGradient` para personalizar o visual:
-  ```javascript
-  colors={['#ff7e5f', '#feb47b']}
+  ```Typescript
+   <LinearGradient colors={['#eee', '#4EC5F1']}
   ```
 
 - **Mude o tempo inicial**: Altere o valor do estado inicial de `timeLeft` para outro intervalo:
-  ```javascript
-  const [timeLeft, setTimeLeft] = useState(3 * 24 * 60 * 60); // 3 dias em segundos
+  ```Typescript
+  const SEVEN_DAYS_IN_SECONDS = 7 * 24 * 60 * 60; //sete dias em segundos
   ```
 
 ---
@@ -190,7 +210,7 @@ const styles = StyleSheet.create({
 
 Se tiver dúvidas ou sugestões, entre em contato:
 
-- **Email**: [paulogui5433@outlook.com](mailto:seu-email@example.com)
+- **Email**: [paulogui5433@outlook.com]
 - **GitHub**: [albavxs](https://github.com/albavxs)
 
 ---

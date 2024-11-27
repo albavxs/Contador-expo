@@ -1,18 +1,12 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  withDelay,
-  Easing,
-} from 'react-native-reanimated';
+import ConfettiCannon from 'react-native-confetti-cannon';
 
 const SEVEN_DAYS_IN_SECONDS = 7 * 24 * 60 * 60;
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
-// Função utilitária para formatar o tempo
+// Função para formatar o tempo
 const formatTime = (seconds: number): string => {
   const days = Math.floor(seconds / (24 * 60 * 60));
   const hours = Math.floor((seconds % (24 * 60 * 60)) / 3600);
@@ -23,23 +17,28 @@ const formatTime = (seconds: number): string => {
 
 const HomeScreen: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState<number>(SEVEN_DAYS_IN_SECONDS);
-  const [emojis, setEmojis] = useState<Array<{ id: string; x: number; delay: number }>>([]);
+  const [showConfetti, setShowConfetti] = useState<boolean>(false);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Atualiza o contador de tempo a cada segundo
   useEffect(() => {
-    if (timeLeft <= 0) return;
-    const timerId = setInterval(() => setTimeLeft((prevTime) => prevTime - 1), 1000);
-    return () => clearInterval(timerId);
-  }, [timeLeft]);
+    const startTime = Date.now();
+    const updateTimer = () => {
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      const remainingTime = Math.max(SEVEN_DAYS_IN_SECONDS - elapsed, 0);
+      setTimeLeft(remainingTime);
+      if (remainingTime <= 0 && intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+    intervalRef.current = setInterval(updateTimer, 1000);
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, []);
 
-  // Adiciona emojis à tela com animação
   const handleEmojiClick = useCallback(() => {
-    const newEmojis = Array.from({ length: 5 }).map(() => ({
-      id: Math.random().toString(),
-      x: Math.random() * width, // Posição horizontal aleatória
-      delay: Math.random() * 1000, // Atraso na queda
-    }));
-    setEmojis((prevEmojis) => [...prevEmojis, ...newEmojis]);
+    setShowConfetti(true);
+    setTimeout(() => setShowConfetti(false), 3000); // Duração do confete
   }, []);
 
   return (
@@ -47,9 +46,14 @@ const HomeScreen: React.FC = () => {
       <Header onEmojiClick={handleEmojiClick} />
       <Title text="Contador" />
       <TimeDisplay formattedTime={formatTime(timeLeft)} />
-      {emojis.map((emoji) => (
-        <FallingEmoji key={emoji.id} x={emoji.x} delay={emoji.delay} />
-      ))}
+      {showConfetti && (
+        <ConfettiCannon
+          count={40} // Número de confetes
+          origin={{ x: width / 2, y: 0 }} // Posição de origem dos confetes
+          fallSpeed={4500} // Velocidade da queda dos confetes
+          fadeOut={true} // FadeOut quando desaparece
+        />
+      )}
     </LinearGradient>
   );
 };
@@ -64,49 +68,18 @@ const Header: React.FC<{ onEmojiClick: () => void }> = ({ onEmojiClick }) => (
 );
 
 // Componente Title
-interface TitleProps {
-  text: string;
-}
-
-const Title: React.FC<TitleProps> = ({ text }) => (
+const Title: React.FC<{ text: string }> = ({ text }) => (
   <View style={styles.titleContainer}>
     <Text style={styles.title}>{text}</Text>
   </View>
 );
 
 // Componente TimeDisplay
-interface TimeDisplayProps {
-  formattedTime: string;
-}
-
-const TimeDisplay: React.FC<TimeDisplayProps> = ({ formattedTime }) => (
+const TimeDisplay: React.FC<{ formattedTime: string }> = ({ formattedTime }) => (
   <View style={styles.timeContainer}>
     <Text style={styles.timeText}>{formattedTime}</Text>
   </View>
 );
-
-// Componente para criar o efeito de queda dos emojis
-const FallingEmoji: React.FC<{ x: number; delay: number }> = ({ x, delay }) => {
-  const translateY = useSharedValue(-100); // Começa bem acima do topo da tela
-
-  // Inicia a animação ao montar o componente
-  useEffect(() => {
-    translateY.value = withDelay(
-      delay,
-      withTiming(height + 100, { // Sai abaixo do limite inferior da tela
-        duration: 3000,
-        easing: Easing.out(Easing.quad),
-      })
-    );
-  }, [delay]);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: translateY.value }],
-    left: x,
-  }));
-
-  return <Animated.Text style={[styles.emojiRain, animatedStyle]}>🎉</Animated.Text>;
-};
 
 const styles = StyleSheet.create({
   container: {
@@ -136,11 +109,6 @@ const styles = StyleSheet.create({
     fontSize: 28,
     color: '#fff',
     fontWeight: 'bold',
-  },
-  emojiRain: {
-    position: 'absolute', // Importante para posicionar fora do fluxo normal
-    top: 0, // Garante que a posição seja relativa ao topo da tela
-    fontSize: 32,
   },
 });
 
