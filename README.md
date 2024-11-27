@@ -39,6 +39,11 @@ Este projeto apresenta um contador regressivo com design moderno, utilizando **R
    npm install react-native-confetti-cannon
    ```
 
+6. **deixe um device ativo no Android Studio
+   ```device da sua escolha
+   mas se possível um google pixel 7 34.2
+   ```
+
 ---
 
 ## Instalação e Configuração
