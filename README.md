@@ -1,7 +1,54 @@
 
+## Pré-requisitos para rodar localmente
+
+1. **Clone o Repositório**:
+   ```bash
+   git clone <URL_DO_REPOSITORIO>
+   cd <NOME_DO_REPOSITORIO>
+   ```
+
+2. **Node.js**: Certifique-se de que o [Node.js](https://nodejs.org/) está instalado no seu sistema.
+   
+3. **Expo CLI**: Caso não esteja instalado, instale globalmente:
+   ```bash
+   npm install -g expo-cli
+   ```
+
+4. **Dependências do Projeto**: Instale as dependências do projeto com:
+   ```bash
+   npm install
+   ```
+
+5. **Instale o `expo-linear-gradient`**:
+   ```bash
+   expo install expo-linear-gradient
+   ```
+
+6. **Instale o pacote para confetes** (exemplo com `react-native-confetti-cannon`):
+   ```bash
+   npm install react-native-confetti-cannon
+   ```
+
+7. ** Possuir um Android Studio instalado 
+   ```device da sua escolha ativo
+
+   ```
+
+8. **Inicie o Servidor de Desenvolvimento**:
+   ```bash
+    expo start
+   ```
+
+---
+
+   
+
+
 # HomeScreen - Contador com Fundo Gradiente
 
 Este projeto apresenta um contador regressivo com design moderno, utilizando **React Native Expo** e um fundo com gradiente. O contador exibe o tempo restante no formato `dd/hh:mm:ss` e conta regressivamente. Além disso, ao clicar em um emoji, a tela é invadida por um efeito de "chuva de confete", adicionando diversão à experiência.
+
+---
 
 ---
 
@@ -15,51 +62,6 @@ Este projeto apresenta um contador regressivo com design moderno, utilizando **R
 
 ---
 
-## Pré-requisitos
-
-1. **Node.js**: Certifique-se de que o [Node.js](https://nodejs.org/) está instalado no seu sistema.
-   
-2. **Expo CLI**: Caso não esteja instalado, instale globalmente:
-   ```bash
-   npm install -g expo-cli
-   ```
-
-3. **Dependências do Projeto**: Instale as dependências do projeto com:
-   ```bash
-   npm install
-   ```
-
-4. **Instale o `expo-linear-gradient`**:
-   ```bash
-   expo install expo-linear-gradient
-   ```
-
-5. **Instale o pacote para confetes** (exemplo com `react-native-confetti-cannon`):
-   ```bash
-   npm install react-native-confetti-cannon
-   ```
-
-6. **deixe um device ativo no Android Studio
-   ```device da sua escolha
-   mas se possível um google pixel 7 34.2
-   ```
-
----
-
-## Instalação e Configuração
-
-1. **Clone o Repositório**:
-   ```bash
-   git clone <URL_DO_REPOSITORIO>
-   cd <NOME_DO_REPOSITORIO>
-   ```
-
-2. **Inicie o Servidor de Desenvolvimento**:
-   ```bash
-   expo start
-   ```
-
----
 
 ## Estrutura do Código
 
