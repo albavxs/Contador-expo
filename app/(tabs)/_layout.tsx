@@ -20,19 +20,26 @@ export default function TabLayout() {
         tabBarBackground: TabBarBackground,
         tabBarStyle: Platform.select({
           android: {
-            // Use a transparent background on iOS to show the blur effect
             position: 'absolute',
+            backgroundColor: 'transparent',
+            elevation: 0,
+          },
+          ios: {
+            backgroundColor: 'transparent',
+            borderTopWidth: 0,
           },
           default: {},
         }),
       }}>
+      {/* Esconde o botão da barra para "index" */}
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarButton: () => null,
+          headerShown: false,
         }}
       />
+      {/* Define a aba principal como "Explore" */}
       <Tabs.Screen
         name="explore"
         options={{
