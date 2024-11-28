@@ -47,6 +47,7 @@ Este projeto apresenta um contador regressivo com design moderno, utilizando **R
    ```bash ou terminal
    npx expo start
    ```
+   
 
 ---
 

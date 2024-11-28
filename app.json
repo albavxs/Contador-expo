@@ -6,6 +6,10 @@
     "orientation": "portrait",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png", 
+      "resizeMode": "contain"
+    },
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
@@ -13,7 +17,8 @@
  
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/icon.png"
+        "foregroundImage": "./assets/images/icon.png",
+        "backgroundImage": "./assets/images/iconbackground.png" 
          
       },
       "package": "com.pegui.expoapx"
