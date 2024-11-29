@@ -1,4 +1,4 @@
-import { Text, type TextProps, StyleSheet } from 'react-native';
+import { Text, StyleSheet, type TextProps } from 'react-native';
 import { useThemeColor } from '@/hooks/useThemeColor';
 
 export type ThemedTextProps = TextProps & {
@@ -7,7 +7,7 @@ export type ThemedTextProps = TextProps & {
   type?: 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link';
 };
 
-// Estilos definidos primeiro
+// Estilos centralizados
 const styles = StyleSheet.create({
   default: {
     fontSize: 16,
@@ -28,17 +28,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   link: {
-    lineHeight: 30,
     fontSize: 16,
+    lineHeight: 30,
     color: '#0a7ea4',
   },
 });
 
-// Agora o mapeamento de tipo para estilos é definido após os estilos
-const typeStyles = {
+// Mapeamento de estilos por tipo
+const typeStyles: Record<Required<ThemedTextProps>['type'], object> = {
   default: styles.default,
-  title: styles.title,
   defaultSemiBold: styles.defaultSemiBold,
+  title: styles.title,
   subtitle: styles.subtitle,
   link: styles.link,
 };
@@ -50,14 +50,17 @@ export function ThemedText({
   type = 'default',
   ...rest
 }: ThemedTextProps) {
+  // Obtém a cor do tema atual
   const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
+  // Seleciona o estilo apropriado com base no tipo
   const textStyle = typeStyles[type];
 
   return (
     <Text
-      style={[{ color }, textStyle, style]}
-      {...rest}
+      style={[{ color }, textStyle, style]} // Combina as cores e estilos personalizados
+      {...rest} // Propaga as propriedades restantes
     />
   );
 }
+
 

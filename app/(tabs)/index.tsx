@@ -7,21 +7,26 @@ import { useConfetti } from '../../hooks/useConfetti.web';
 import Title from '../../components/Title';
 import ConfettiEffect from '../../components/ConfettiEffect';
 
+const SEVEN_DAYS_IN_SECONDS = 7 * 24 * 60 * 60; // 7 dias em segundos
+
 const HomeScreen: React.FC = () => {
-  // 7 dias em segundos: 7 * 24 * 60 * 60
-  const { timeLeft, formattedTime } = useCountdown(7 * 24 * 60 * 60); // Inicia com 7 dias
+  const { timeLeft, formattedTime } = useCountdown(SEVEN_DAYS_IN_SECONDS);
   const { isConfettiVisible, triggerConfetti } = useConfetti();
 
+  // Lida com o término da contagem regressiva
   useEffect(() => {
-    if (timeLeft <= 0) {
-      console.log('Contagem regressiva concluída!');
-    }
+    if (timeLeft <= 0) handleCountdownEnd();
   }, [timeLeft]);
+
+  // Função separada para o término da contagem
+  const handleCountdownEnd = () => {
+    console.log('Contagem regressiva concluída!');
+  };
 
 
   
   return (
-    <LinearGradient colors={['#eee', '#4EC5F1']} style={styles.container}>
+    <LinearGradient colors={['#20272F', 'hsl(212, 49%, 27%)']} style={styles.container}>
       <View style={styles.emojiContainer}>
         <Text style={styles.emoji} onPress={triggerConfetti}>
           🥳
@@ -56,7 +61,7 @@ const styles = StyleSheet.create({
   },
   timeText: {
     fontSize: 28,
-    color: '#fff',
+    color: '#eee',
     fontFamily: 'opensans',
   },
 });

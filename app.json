@@ -7,21 +7,23 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/splash.png", 
-      "resizeMode": "contain"
+      "image": "./assets/images/splash.png", 
+      "resizeMode": "contain",
+      "backgroundColor": "hsl(212, 49%, 27%)"
     },
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.pegui.expoapx",  
+      "buildNumber": "1.0.0"  
     },
- 
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",
-        "backgroundImage": "./assets/images/iconbackground.png" 
-         
+         "backgroundColor": "hsl(212, 49%, 27%)",  
+        "resizeMode": "contain"
       },
-      "package": "com.pegui.expoapx"
+      "package": "com.pegui.expoapx"  
     },
     "web": {
       "bundler": "metro",
@@ -29,16 +31,7 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash.png",
-          "imageWidth": 200,
-          "resizeMode": "cover"
-          
-        }
-      ]
+      "expo-router"
     ],
     "experiments": {
       "typedRoutes": true

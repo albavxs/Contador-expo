@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-// Constants for time calculations to avoid magic numbers
+// Constantes para cálculos de tempo para evitar números mágicos
 const SECONDS_IN_A_DAY = 86400; // 24 * 60 * 60
 const SECONDS_IN_AN_HOUR = 3600; // 60 * 60
 const SECONDS_IN_A_MINUTE = 60;
@@ -8,9 +8,9 @@ const SECONDS_IN_A_MINUTE = 60;
 export const useCountdown = (initialTimeInSeconds: number): { timeLeft: number; formattedTime: string; showConfetti: boolean; triggerConfetti: () => void } => {
   const [timeLeft, setTimeLeft] = useState<number>(initialTimeInSeconds);
   const [formattedTime, setFormattedTime] = useState<string>('');
-  const [showConfetti, setShowConfetti] = useState<boolean>(false); // State for confetti trigger
+  const [showConfetti, setShowConfetti] = useState<boolean>(false); // Estado para disparar o confete
 
-  // Format time as days, hours, minutes, and seconds
+  // Formata o tempo em dias, horas, minutos e segundos
   const formatTime = useCallback((time: number): string => {
     const days = Math.floor(time / SECONDS_IN_A_DAY);
     const hours = Math.floor((time % SECONDS_IN_A_DAY) / SECONDS_IN_AN_HOUR);
@@ -20,10 +20,10 @@ export const useCountdown = (initialTimeInSeconds: number): { timeLeft: number; 
     return `${days}d ${hours}h ${minutes}m ${seconds}s`;
   }, []);
 
-  // Trigger confetti manually (e.g., by clicking the emoji)
+  // Dispara o confete manualmente (ex.: ao clicar no emoji)
   const triggerConfetti = useCallback(() => {
     setShowConfetti(true);
-    setTimeout(() => setShowConfetti(false), 3000); // Confetti duration of 3 seconds
+    setTimeout(() => setShowConfetti(false), 3000); // Duração do confete: 3 segundos
   }, []);
 
   useEffect(() => {
@@ -31,9 +31,9 @@ export const useCountdown = (initialTimeInSeconds: number): { timeLeft: number; 
 
     setFormattedTime(formatTime(timeLeft));
 
-    // Automatically show confetti when 60 seconds are left
+    // Mostra automaticamente o confete quando faltam 60 segundos
     if (timeLeft <= 60 && !showConfetti) {
-      setShowConfetti(true); // Show confetti when time reaches 60 seconds or less
+      setShowConfetti(true); // Exibe o confete quando o tempo atinge 60 segundos ou menos
     }
 
     const timerId = setInterval(() => {

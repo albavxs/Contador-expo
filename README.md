@@ -1,53 +1,86 @@
+Aqui está o seu `README.md` atualizado e com as instruções para iOS separadas:
+
+```markdown
 # HomeScreen - Contador com Fundo Gradiente
 
 Este projeto apresenta um contador regressivo com design moderno, utilizando **React Native Expo** e um fundo com gradiente. O contador exibe o tempo restante no formato `dd/hh:mm:ss` e conta regressivamente. Além disso, ao clicar em um emoji, a tela é invadida por um efeito de "chuva de confete", adicionando diversão à experiência.
 
 ---
 
-
 ## Pré-requisitos para rodar localmente
 
 1. **Clone o Repositório**:
-   ```bash ou terminal
-   git clone <https://github.com/albavxs/Contador-expo>
-   cd <expo-apx>
+   ```bash
+   git clone https://github.com/albavxs/Contador-expo
+   cd contador-expo
    ```
 
 2. **Node.js**: Certifique-se de que o [Node.js](https://nodejs.org/) está instalado no seu sistema.
    
-3. **Android Studio**: Certifique-se de que o [Android.studio](https://developer.android.com/) está instalado no seu sistema.
-   ``` Vá em Running Devices
-   e ative um device da sua escolha
+3. **Android Studio**: Certifique-se de que o [Android Studio](https://developer.android.com/) está instalado no seu sistema.
+   
+   Passos para rodar no Android Studio (emulador):
+   1. Abra o Android Studio.
+   2. Vá até **Tools > AVD Manager** (Android Virtual Device Manager).
+   3. Clique em **Create Virtual Device**.
+   4. Escolha o tipo de dispositivo (por exemplo, Pixel 4) e clique em **Next**.
+   5. Inicie o dispositivo.
 
+4. **Xcode (somente macOS)**:
+   Certifique-se de que o Xcode está instalado no seu sistema.
+   1. Abra o Xcode e vá até **Xcode > Preferences > Locations** para garantir que a linha de comando do Xcode está configurada corretamente.
+   2. Simulador iOS: Abra o Xcode, clique em **Xcode > Open Developer Tool > Simulator**. Isso abrirá o simulador de dispositivos iOS, onde você pode rodar seu app em um dispositivo   simulado. 
+
+5. **Expo CLI**: Instale globalmente:
+   ```bash
+   npm install -g expo-cli
    ```
 
-4. **Dependências do Projeto**: Instale as dependências do projeto com:
-   ```bash ou terminal
+6. **Build Android**: Com o Android Studio instalado, um dispositivo rodando e as variáveis de ambiente bem configuradas, use o comando para rodar diretamente sem precisar de outras instruções:
+
+   ```bash
+   adb install ./build/app-release.apk
+   ```
+
+7.Gerar Build iOS: Para gerar uma build para iOS e gerar o arquivo .ipa, use o seguinte comando para rodar diretamente sem precisar de outras instruções:
+```
+    bash
+  
+    eas build --platform ios
+    O comando acima gerará o arquivo .ipa para o seu aplicativo iOS, pronto para ser instalado no simulador ou em um dispositivo físico.
+
+    Instalar o .ipa no Simulador iOS: Com o simulador iOS aberto, abra o terminal no seu Mac e use o seguinte comando para instalar o .ipa no simulador:
+    nao se esqueça de inserir na pasta Build
+    bash
+   
+   não se esqueça de alterar o caminho ou o seu app de acordo com o nome certo gerado.
+    xcrun simctl install booted ./build/nomeDoSeuApp.ipa
+    xcrun simctl launch booted com.seu.app.bundleId
+```
+8. **Dependências do Projeto**: Instale as dependências do projeto com:
+   ```bash
    npm install
    ```
 
-
-
-5. **Instale o `expo-linear-gradient`**:
-   ```bash ou terminal
+9. **Instale o `expo-linear-gradient`**:
+   ```bash
    npm install expo-linear-gradient 
    ```
 
-6. **Instale o `react-native-confetti-cannon`**:
-   ```bash ou terminal
-   npm install react-native-confetti-cannon
-   ```   
-
-7. **Instale o pacote para confetes** (exemplo com `react-native-confetti-cannon`):
-   ```bash ou terminal
+10. **Instale o `react-native-confetti-cannon`**:
+   ```bash
    npm install react-native-confetti-cannon
    ```
 
-8. **Inicie o Servidor de Desenvolvimento**:
-   ```bash ou terminal
+11. **Instale o pacote para confetes** (exemplo com `react-native-confetti-cannon`):
+   ```bash
+   npm install react-native-confetti-cannon
+   ```
+
+12. **Inicie o Servidor de Desenvolvimento**:
+   ```bash
    npx expo start
    ```
-   
 
 ---
 
@@ -61,87 +94,86 @@ Este projeto apresenta um contador regressivo com design moderno, utilizando **R
 
 ---
 
-
----
-
 ## Funcionalidades
 
 - **Contador regressivo** com atualização em tempo real.
 - **Formatação do tempo** no formato: `dd/hh:mm:ss`.
 - **Fundo estilizado com gradiente** usando `expo-linear-gradient`.
-- **Efeito de confetes** ao clicar em um emoji.
+- **Efeito de confetes** ao clicar em um emoji (quantidade de cliques por segundo limitada).
 - Layout **responsivo** e **estilizado**.
 
 ---
 
-
 ## Estrutura do Código
-
-### Componente Principal: `Homescreen presente em index.tsx`
 
 - **Estado do contador**:
   O estado `timeLeft` armazena o tempo restante em segundos (7 dias por padrão).
   ```javascript
-   const [timeLeft, setTimeLeft] = useState<number>(SEVEN_DAYS_IN_SECONDS);  // 7 dias em segundos
-
+   const SEVEN_DAYS_IN_SECONDS = 7 * 24 * 60 * 60; // 7 dias em segundos 
   ```
 
-- **Efeito para atualização do contador**:
+- **Efeito para atualização**:
   Atualiza o contador a cada segundo até o tempo acabar.
-  ```Typescript
-  useEffect(() => {
-    if (timeLeft <= 0) return;
-    const timerId = setInterval(() => setTimeLeft((prevTime) => prevTime - 1), 1000);
+  ```typescript
+   const timerId = setInterval(() => {
+      setTimeLeft(prev => prev - 1);
+    }, 1000);
+
     return () => clearInterval(timerId);
-  }, [timeLeft]);
+    }, [timeLeft, formatTime, showConfetti]);
   ```
 
 - **Gradiente com `LinearGradient`**:
   Utiliza `expo-linear-gradient` para o fundo com gradiente.
-  ```Typescript
+  ```typescript
   <LinearGradient colors={['#eee', '#4EC5F1']} style={styles.container}>
     {/* Conteúdo */}
   </LinearGradient>
   ```
 
-- **Função de formatação de tempo**:
+- **Função de formatação de tempo em hooks**:
   A função `formatTime` converte o tempo restante de segundos para o formato `dd/hh:mm:ss`.
-  ```Typescript
-  const formatTime = (seconds: number): string => {
-  const days = Math.floor(seconds / (24 * 60 * 60));
-  const hours = Math.floor((seconds % (24 * 60 * 60)) / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  const remainingSeconds = seconds % 60;
-  return `${String(days).padStart(2, '0')}/${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+  ```typescript
+    const formatTime = useCallback((time: number): string => {
+    const days = Math.floor(time / SECONDS_IN_A_DAY);
+    const hours = Math.floor((time % SECONDS_IN_A_DAY) / SECONDS_IN_AN_HOUR);
+    const minutes = Math.floor((time % SECONDS_IN_AN_HOUR) / SECONDS_IN_A_MINUTE);
+    const seconds = time % SECONDS_IN_A_MINUTE;
 
-  };
+    return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  }, []);
   ```
 
-- **Efeito de Confetes**:
+- **Efeito de Confetes em hooks**:
   Ao clicar no emoji, os confetes são disparados utilizando o pacote `react-native-reanimated`.
-  ```Typescript
+  ```typescript
   const FallingEmoji: React.FC<{ x: number; delay: number }> = ({ x, delay }) => {
   const translateY = useSharedValue(-100); // Começa bem acima do topo da tela
 
-  // Inicia a animação ao montar o componente
-  useEffect(() => {
-    translateY.value = withDelay(
-      delay,
-      withTiming(height + 100, { // Sai abaixo do limite inferior da tela
-        duration: 3000,
-        easing: Easing.out(Easing.quad),
-      })
-    );
-  }, [delay]);
+  // Obtém a largura da janela
+  const SCREEN_WIDTH = Dimensions.get('window').width;
+ 
+  // Configurações do efeito de confete
+  const CONFETTI_COUNT = 15;
+  const FALL_SPEED = 2500;
+
+  const ConfettiEffect: React.FC = () => (
+  <ConfettiCannon
+    count={CONFETTI_COUNT}
+    origin={{ x: SCREEN_WIDTH / 2, y: 0 }} // Origem centralizada no topo
+    fallSpeed={FALL_SPEED}
+    fadeOut={true} // Efeito de fade-out ao desaparecer
+  />
+);
   ```
 
 ---
 
 ## Estilos
 
-O estilo é definido no arquivo `StyleSheet.d.ts`:
+Os estilos são definidos no arquivo `StyleSheet.d.ts` e configurados diretamente no componente `index`:
 
-```Typescript
+```typescript
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -155,44 +187,60 @@ const styles = StyleSheet.create({
     fontSize: 48,
     textAlign: 'center',
   },
-  titleContainer: {
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 32,
-    color: '#fff',
-    fontWeight: 'bold',
-  },
   timeContainer: {
     marginTop: 20,
   },
   timeText: {
     fontSize: 28,
     color: '#fff',
-    fontWeight: 'bold',
-  },
-  emojiRain: {
-    position: 'absolute', // Importante para posicionar fora do fluxo normal
-    top: 0, // Garante que a posição seja relativa ao topo da tela
-    fontSize: 32,
+    fontFamily: 'opensans', // Aplica a fonte personalizada
   },
 });
 ```
 
 ---
 
+## Estilos do Componente `Title`
 
+O componente `Title` recebe um texto como propriedade e aplica os estilos definidos:
+
+```typescript
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+
+const Title: React.FC<{ text: string }> = ({ text }) => (
+  <View style={styles.container}>
+    <Text style={styles.text}>{text}</Text>
+  </View>
+);
+
+const styles = StyleSheet.create({
+  container: {
+    marginBottom: 16,
+    alignItems: 'center',
+  },
+  text: {
+    fontSize: 32,
+    color: '#fff',
+    fontFamily: 'opensans', // Aplica a fonte personalizada
+  },
+});
+
+export default Title;
+```
+
+---
 
 ## Personalização
 
 - **Altere o gradiente**: Atualize os valores da propriedade `colors` no `LinearGradient` para personalizar o visual:
-  ```Typescript
-   <LinearGradient colors={['#eee', '#4EC5F1']}
+  ```typescript
+   <LinearGradient colors={['#eee', '#4EC5F1']}>
   ```
 
 - **Mude o tempo inicial**: Altere o valor do estado inicial de `timeLeft` para outro intervalo:
-  ```Typescript
-  const SEVEN_DAYS_IN_SECONDS = 7 * 24 * 60 * 60; //sete dias em segundos
+  ```typescript
+  const SEVEN_DAYS_IN_SECONDS = 7 * 24 * 60 * 60; // sete dias em segundos
   ```
 
 ---
@@ -212,10 +260,12 @@ const styles = StyleSheet.create({
 Se tiver dúvidas ou sugestões, entre em contato:
 
 - **Email**: [paulogui5433@outlook.com]
-- **GitHub**: [albavxs](https://github.com/albavxs)
+- **GitHub**: [albavxs](https://github.com/albavxs/Contador-expo)
 
 ---
 
 **Divirta-se usando este projeto!** 🥳
 
 ---
+```
+

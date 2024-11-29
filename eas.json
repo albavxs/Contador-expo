@@ -3,7 +3,6 @@
     "version": ">= 12.6.2",
     "appVersionSource": "remote"
   },
- 
   "build": {
     "preview": {
       "android": {
@@ -21,7 +20,14 @@
     "preview4": {
       "distribution": "internal"
     },
-    "production": {}
+    "production": {},
+    "development": {
+      "android": {
+        "buildType": "apk"
+      },
+      "ios": {
+        "distribution": "internal"
+      }
+    }
   }
-
 }

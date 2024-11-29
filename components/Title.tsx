@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 32,
-    color: '#fff',
+    color: '#eee',
     fontFamily: 'opensans', // Aplica a fonte personalizada
   },
 });
