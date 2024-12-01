@@ -76,6 +76,13 @@ adicionando diversão à experiência.
    ```
 
 
+12. **Caso tenha um erro por conta de uma assinatura igual ao da build do meu projeto**:
+   ```
+   bash 
+   adb uninstall com.pegui.expoapx
+
+   ```
+
 
 12. **Build Android**: Com o Android Studio instalado, um dispositivo rodando e as variáveis de ambiente bem configuradas, use o comando para rodar diretamente sem precisar de outras instruções ou gerar a build eas manualmente:
 
@@ -93,7 +100,7 @@ adicionando diversão à experiência.
    
 ### Gerar Build iOS
 
-Para gerar uma build para iOS usando o **Expo EAS Build**, o comando correto é:
+Para gerar uma build para iOS usando o **Expo EAS Build**:
 
 ```bash
 eas build --platform ios
