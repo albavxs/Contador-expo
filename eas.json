@@ -3,25 +3,32 @@
     "version": ">= 12.6.2",
     "appVersionSource": "remote"
   },
-
   "build": {
     "preview": {
       "android": {
         "buildType": "apk"
-      }
+      },
+      "ios": {}
     },
     "preview2": {
       "android": {
         "gradleCommand": ":app:assembleRelease"
-      }
+      },
+      "ios": {}
     },
     "preview3": {
-      "developmentClient": true
+      "developmentClient": true,
+      "ios": {}
     },
     "preview4": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "ios": {}
     },
-    "production": {}
+    "production": {
+      "android": {
+        "buildType": "apk"
+      },
+      "ios": {}
+    }
   }
 }
-

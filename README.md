@@ -38,15 +38,57 @@ adicionando diversão à experiência.
    npm install -g expo-cli
    ```
 
-6. **Build Android**: Com o Android Studio instalado, um dispositivo rodando e as variáveis de ambiente bem configuradas, use o comando para rodar diretamente sem precisar de outras instruções:
+6. **Dependências do Projeto**: Instale as dependências do projeto com:
+   ```bash
+   npm install
+   ```
+
+7. **Instale o `expo-splash-screen`**:
+   ```bash
+   npm install expo-splash-screen
+
+   ```
+
+8. **Instale o `react-native-reanimated`**:
+   ```bash
+   npm install react-native-reanimated
+
+
+   ```
+
+
+9. **Instale o `expo-linear-gradient`**:
+   ```bash
+   npm install expo-linear-gradient 
+   ```
+
+10. **Instale o `react-native-confetti-cannon`**:
+   ```bash
+   npm install react-native-confetti-cannon
+   ```
+
+
+
+11. **Inicie o Servidor de Desenvolvimento**:
+   ```caso no terminal seja sugerido atualizar o expo go: y
+   bash 
+   npx expo start
+   ```
+
+
+
+12. **Build Android**: Com o Android Studio instalado, um dispositivo rodando e as variáveis de ambiente bem configuradas, use o comando para rodar diretamente sem precisar de outras instruções ou gerar a build eas manualmente:
 
    ```bash
+   para apk
+   eas build -p android --profile preview 
+   instala a build locall
    adb install ./build/app-release.apk
    caso queria rodar via terminal após
    adb shell monkey -p com.pegui.expoapx -c android.intent.category.LAUNCHER 1
    ```
 
-7. **Gerar Build iOS**: Para gerar uma build para iOS e gerar o arquivo .ipa, use o seguinte comando para rodar sem precisar das outras instruções:
+13. **Gerar Build iOS**: Para gerar uma build para iOS e gerar o arquivo .ipa, use o seguinte comando para rodar sem precisar das outras instruções:
 ```
    As instruções e os comandos que você forneceu estão quase corretos, mas eu sugiro algumas pequenas correções e ajustes. Aqui está a versão revisada com explicações:
 
@@ -88,29 +130,6 @@ Substitua `com.seu.app.bundleId` pelo **Bundle Identifier** do seu aplicativo, q
 Esses passos devem ser suficientes para gerar e testar o aplicativo iOS no simulador.
 ``
 
-
-8. **Dependências do Projeto**: Instale as dependências do projeto com:
-   ```bash
-   npm install
-   ```
-
-9. **Instale o `expo-linear-gradient`**:
-   ```bash
-   npm install expo-linear-gradient 
-   ```
-
-10. **Instale o `react-native-confetti-cannon`**:
-   ```bash
-   npm install react-native-confetti-cannon
-   ```
-
-
-
-11. **Inicie o Servidor de Desenvolvimento**:
-   ```caso no terminal seja sugerido atualizar o expo go: y
-   bash 
-   npx expo start
-   ```
 
 ---
 
