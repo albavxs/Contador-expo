@@ -19,9 +19,9 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/icon.png",
-         "backgroundColor": "hsl(212, 49%, 27%)",  
-        "resizeMode": "contain"
+        "foregroundImage": "./assets/images/icon.png"
+        
+        
       },
       "package": "com.pegui.expoapx"  
     },
