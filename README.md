@@ -90,8 +90,7 @@ adicionando diversão à experiência.
 
 13. **Gerar Build iOS**: Para gerar uma build para iOS e gerar o arquivo .ipa, use o seguinte comando para rodar sem precisar das outras instruções:
 ```
-   As instruções e os comandos que você forneceu estão quase corretos, mas eu sugiro algumas pequenas correções e ajustes. Aqui está a versão revisada com explicações:
-
+   
 ### Gerar Build iOS
 
 Para gerar uma build para iOS usando o **Expo EAS Build**, o comando correto é:
